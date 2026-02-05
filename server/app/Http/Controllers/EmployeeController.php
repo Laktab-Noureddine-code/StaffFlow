@@ -2,34 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\EmployeeDTO;
 use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Resources\EmployeeResource;
+use App\Services\EmployeeService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EmployeeController extends Controller
 {
+    public function __construct(private EmployeeService $service) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+       $employees = $this->service->getAll();
+       return EmployeeResource::collection($employees);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+  
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEmployeeRequest $request)
+    public function store(StoreEmployeeRequest $request):JsonResponse
     {
-        //
+        $dto = EmployeeDTO::fromRequest($request);
+        $employee = $this->service->create($dto);
+        return response()->json($employee, 201);
     }
 
     /**

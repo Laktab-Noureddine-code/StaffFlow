@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Companie extends Model
+class Company extends Model
 {
     protected $fillable = [
         'company_name',
@@ -17,4 +17,14 @@ class Companie extends Model
         'logo_url',
         'status',
     ];
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class ,'company_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
