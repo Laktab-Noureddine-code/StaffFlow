@@ -12,15 +12,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EmployeeController extends Controller
 {
-    public function __construct(private EmployeeService $service) {}
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       $employees = $this->service->getAll();
-       return EmployeeResource::collection($employees);
+      
     }
 
   
@@ -28,11 +26,8 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEmployeeRequest $request):JsonResponse
+    public function store(StoreEmployeeRequest $request)
     {
-        $dto = EmployeeDTO::fromRequest($request);
-        $employee = $this->service->create($dto);
-        return response()->json($employee, 201);
     }
 
     /**

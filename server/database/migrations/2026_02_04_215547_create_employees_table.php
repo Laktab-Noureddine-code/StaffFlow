@@ -40,7 +40,6 @@ return new class extends Migration
             $table->string('poste');
             $table->foreignId('manager_id')->nullable()->constrained('employees');
             $table->enum('statut', ['actif', 'suspendu', 'résilié'])->default('actif');
-            $table->date('date_fin_contrat')->nullable();
             $table->string('motif_depart')->nullable();
 
             // Informations de contrat
