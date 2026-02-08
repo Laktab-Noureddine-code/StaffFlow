@@ -1,17 +1,33 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
 import { Eye, EyeOff } from "lucide-react";
+import api from "../../api/axios";
+import { useDispatch } from "react-redux";
+import { startLogin } from "../../redux/slices/authSlice";
 
 function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      setLoading(true);
+      const data = await api.post("/api/login", { email, password });
+      if (data.status === 200) {
+        setLoading(false);
+        dispatch(startLogin());
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
   };
 
   return (
@@ -56,7 +72,11 @@ function Login() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
               >
-                {showPassword ? <EyeOff size={20} className="text-gray-500 cursor-pointer"/> : <Eye size={20} className="text-gray-500 cursor-pointer" />}
+                {showPassword ? (
+                  <EyeOff size={20} className="text-gray-500 cursor-pointer" />
+                ) : (
+                  <Eye size={20} className="text-gray-500 cursor-pointer" />
+                )}
               </button>
             </div>
           </div>
@@ -86,7 +106,7 @@ function Login() {
             className={`w-full ${email && password ? "opacity-100" : "opacity-50 cursor-not-allowed"} py-3 bg-[#121828]/90 cursor-pointer hover:bg-[#121828] text-white font-medium rounded-lg transition`}
             disabled={!email || !password}
           >
-            Login
+            {loading ? "Loading..." : "Login"}
           </button>
         </form>
 

@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -38,11 +39,23 @@ class AuthController extends Controller
         $token = $user->createToken('token')->plainTextToken;
         $cookie = cookie('jwt', $token, 60 * 24);
 
-        return response(['message' => 'Success', $token])->withCookie($cookie);
+        return response(['message' => 'Success'], 200)->withCookie($cookie);
     }
 
-    public function me()
+    public function me(Request $request)
     {
-        return Auth::user();
+        $token = $request->cookie('jwt');
+        if (!$token) {
+            return response(['message' => 'Unauthenticated'], 401);
+        }
+
+        $accessToken = PersonalAccessToken::findToken($token);
+        if (!$accessToken) {
+            return response(['message' => 'Invalid token'], 401);
+        }
+
+        $user = $accessToken->tokenable;
+
+        return response(['user' => $user], 200 );
     }
 }
