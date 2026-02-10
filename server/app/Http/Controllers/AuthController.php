@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CompanyResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
@@ -21,11 +20,16 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
-        return User::create([
+        $user =  User::create([
             'email' => $fields['email'],
             'name' => $fields['name'],
             'password' => Hash::make($fields['password'])
         ]);
+
+        $user->assignRole("admin");
+
+        $cookie = $this->generateToken($user);
+        return response(['message' => 'User registered successfully'], 201)->withCookie($cookie);
     }
 
     public function login(Request $request)
@@ -36,8 +40,7 @@ class AuthController extends Controller
             ], 401);
         }
         $user = Auth::user();
-        $token = $user->createToken('token')->plainTextToken;
-        $cookie = cookie('jwt', $token, 60 * 24);
+        $cookie = $this->generateToken($user);
 
         return response(['message' => 'Success'], 200)->withCookie($cookie);
     }
@@ -55,7 +58,32 @@ class AuthController extends Controller
         }
 
         $user = $accessToken->tokenable;
+        $company = $user->company;
 
-        return response(['user' => $user], 200 );
+        if(!$company){
+            return response()
+            ->json(['user'=>new UserResource($user) ], status: 200);
+        }
+
+        return response()
+            ->json(['user'=>new UserResource($user) ,'company'=>new CompanyResource($company)], status: 200);
+    }
+    public function logout(Request $request)
+    {
+        $token = $request->cookie('jwt');
+        if ($token) {
+            $accessToken = PersonalAccessToken::findToken($token);
+            if ($accessToken) {
+                $accessToken->delete();
+                return response(['message' => 'Logged out successfully'], 200)->withCookie(cookie()->forget('jwt'));
+            }
+        }
+        return response(['message' => 'Unauthenticated'], 401);
+    }
+    private function generateToken($user)
+    {
+        $token = $user->createToken('token')->plainTextToken;
+        $cookie = cookie('jwt', $token, 60 * 24);
+        return $cookie;
     }
 }

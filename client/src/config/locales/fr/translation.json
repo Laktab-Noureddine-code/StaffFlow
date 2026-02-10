@@ -1,0 +1,58 @@
+{
+  "welcome": "Bienvenue!",
+  "login": "Connexion",
+  "company": {
+    "stepOf": "Étape {{current}} sur {{total}}",
+    "goBack": "Retour",
+    "continue": "Continuer",
+    "complete": "Terminer",
+    "step1": {
+      "title": "Nous avons besoin de quelques informations sur votre entreprise",
+      "description": "Ces données sont nécessaires pour que nous puissions facilement fournir des solutions adaptées à la capacité de votre entreprise.",
+      "formTitle": "Saisissez le nom de votre entreprise",
+      "companyName": "Nom de l'entreprise",
+      "domainName": "Nom de domaine de l'entreprise",
+      "domainHint": "Nous créerons une URL unique pour vous connecter à HRboard.",
+      "companySizeTitle": "Quelle est la taille de votre entreprise",
+      "placeholderName": "Le nom de votre entreprise",
+      "placeholderDomain": "votre-domaine"
+    },
+    "step2": {
+      "title": "Parlez-nous des détails juridiques de votre entreprise",
+      "description": "Nous avons besoin des numéros d'enregistrement et d'identification de votre entreprise à des fins de conformité.",
+      "formTitle": "Détails d'enregistrement de l'entreprise",
+      "ice": "ICE",
+      "cnssEmployerNumber": "Numéro employeur CNSS",
+      "companyNumber": "Numéro de l'entreprise",
+      "hint": "Ces identifiants sont requis pour la conformité légale et le traitement de la paie.",
+      "placeholderIce": "ex. 001234567000089",
+      "placeholderCnss": "ex. 1234567",
+      "placeholderCompanyNumber": "ex. RC-12345"
+    },
+    "step3": {
+      "title": "Où se situe votre entreprise ?",
+      "description": "Fournissez les coordonnées et l'adresse de votre entreprise pour mieux vous servir.",
+      "formTitle": "Adresse & contact de l'entreprise",
+      "address": "Adresse",
+      "city": "Ville",
+      "phone": "Téléphone",
+      "placeholderAddress": "123 Boulevard Mohammed V",
+      "placeholderCity": "Casablanca",
+      "placeholderPhone": "+212 5XX-XXXXXX"
+    },
+    "step4": {
+      "title": "Presque terminé ! Derniers détails",
+      "description": "Configurez l'email, le logo et le statut de votre entreprise pour finaliser l'inscription.",
+      "formTitle": "Choisissez selon vos besoins",
+      "email": "Email de l'entreprise",
+      "logoUrl": "URL du logo",
+      "status": "Statut de l'entreprise",
+      "placeholderEmail": "contact@votreentreprise.com",
+      "placeholderLogo": "https://votreentreprise.com/logo.png",
+      "placeholderStatus": "Sélectionner un statut",
+      "statusActive": "Actif",
+      "statusInactive": "Inactif",
+      "statusPending": "En attente"
+    }
+  }
+}

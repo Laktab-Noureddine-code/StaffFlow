@@ -1,6 +1,9 @@
+import Dashboard from "./features/dashboard/Dashboard";
+
 function App() {
   return (
-    <div>App</div>
+    <Dashboard>
+    </Dashboard>
   )
 }
 

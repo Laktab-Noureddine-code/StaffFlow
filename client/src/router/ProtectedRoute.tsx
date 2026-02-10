@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/authSlice";
 
@@ -9,15 +9,23 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { user, loading } = useAuth();
-  const navigate = useNavigate();
+  const { user, company, loading } = useAuth();
   const dispatch = useDispatch();
 
   if (loading) return <div>loading...</div>;
-  if (!user) {
-    navigate("/login");
-    return null;
-  }
+  if (!user) return <Navigate to="/login" />;
+  if (!company) return <Navigate to="/onboarding/company" />;
+
+  dispatch(setUser(user));
+  return <>{children}</>;
+};
+
+export const AuthenticatedRoute = ({ children }: ProtectedRouteProps) => {
+  const { user, loading } = useAuth();
+  const dispatch = useDispatch();
+
+  if (loading) return <div>loading...</div>;
+  if (!user) return <Navigate to="/login" />;
 
   dispatch(setUser(user));
   return <>{children}</>;

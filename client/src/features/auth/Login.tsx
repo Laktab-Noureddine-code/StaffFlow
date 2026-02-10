@@ -23,10 +23,12 @@ function Login() {
       if (data.status === 200) {
         setLoading(false);
         dispatch(startLogin());
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     } catch (err) {
       console.error("Login failed:", err);
+    } finally {
+      setLoading(false);
     }
   };
 

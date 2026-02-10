@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->foreignId('company_id')->nullable()->constrained();
             $table->string('password');
             $table->boolean('is_active')->default(true);
             $table->timestamp('last_login_at')->nullable();
