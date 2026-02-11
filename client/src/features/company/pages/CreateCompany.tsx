@@ -4,8 +4,10 @@ import Navbar from "../../../components/shared/Navbar";
 import CompanyForms from "../components/CompanyForms";
 import { validateStep, type CompanyErrors } from "../schemas/companySchema";
 import api from "@/api/axios";
-import { setCompany } from "@/redux/slices/compaySlice";
+import { setCompany } from "@/redux/slices/companySlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 const companySizes = ["1-10", "11-50", "51-100", "101-200", "201-500", "500+"];
 const statusOptions = ["active", "inactive"];
@@ -13,6 +15,7 @@ const statusOptions = ["active", "inactive"];
 function CreateCompany() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   const [companyData, setCompanyData] = useState({
     company_name: "",
@@ -52,6 +55,7 @@ function CreateCompany() {
     } else {
       const company = await api.post("/api/companies", companyData);
       dispatch(setCompany(company.data));
+      return  navigate("/dashboard") ;
     }
   };
 

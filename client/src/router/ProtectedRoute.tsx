@@ -3,7 +3,7 @@ import { useAuth } from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/authSlice";
-import { setCompany } from "../redux/slices/compaySlice";
+import { setCompany } from "../redux/slices/companySlice";
 import Loading from "@/components/shared/Loading";
 
 interface ProtectedRouteProps {

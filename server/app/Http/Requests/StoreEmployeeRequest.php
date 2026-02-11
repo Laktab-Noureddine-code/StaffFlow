@@ -42,7 +42,7 @@ class StoreEmployeeRequest extends FormRequest
             'telephone_contact_urgence' => 'nullable|string|max:15',
 
             // Informations professionnelles
-            'entreprise_id' => 'required|exists:companies,id',
+            'company_id' => 'required|exists:companies,id',
             'departement_id' => 'required|exists:departments,id',
             'date_embauche' => 'required|date',
             'poste' => 'required|string|max:255',
@@ -52,7 +52,7 @@ class StoreEmployeeRequest extends FormRequest
             'motif_depart' => 'nullable|string|max:255',
 
             // Informations de contrat
-            'type_contrat' => 'required|in:CDI,CDD,Stage,Freelance',
+            'type_contrat' => 'required|in:CDI,CDD,Stage,Freelance,Anapec',
             'date_debut_contrat' => 'required|date',
             'periode_essai_mois' => 'nullable|integer|min:0',
             'date_fin_essai' => 'nullable|date|after_or_equal:date_debut_contrat',

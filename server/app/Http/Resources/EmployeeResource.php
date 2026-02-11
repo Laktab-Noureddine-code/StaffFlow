@@ -35,7 +35,7 @@ class EmployeeResource extends JsonResource
             'telephone_contact_urgence' => $this->telephone_contact_urgence,
 
             // Professional info
-            'entreprise_id' => $this->entreprise_id,
+            'company_id' => $this->company_id,
             'departement_id' => $this->departement_id,
             'date_embauche' => $this->date_embauche,
             'poste' => $this->poste,

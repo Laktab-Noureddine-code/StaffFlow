@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('telephone_contact_urgence', 15)->nullable();
 
             // Informations professionnelles
-            $table->foreignId('entreprise_id')->constrained('companies');
+            $table->foreignId('company_id')->constrained('companies');
             $table->foreignId('departement_id')->constrained('departments');
             $table->date('date_embauche');
             $table->string('poste');
@@ -45,6 +45,7 @@ return new class extends Migration
             // Informations de contrat
             $table->enum('type_contrat', ['CDI', 'CDD', 'Stage', 'Freelance'])
                 ->default('CDI');
+            $table->foreignId('job_position_id')->nullable()->constrained('job_positions');
             $table->date('date_debut_contrat');
             $table->date('date_fin_contrat')->nullable();
             $table->integer('periode_essai_mois')->nullable();

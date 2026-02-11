@@ -4,6 +4,7 @@ import { AuthenticatedRoute, GuestRoute, ProtectedRoute } from "./ProtectedRoute
 import App from "../App";
 import Register from "../features/auth/Register";
 import CreateCompany from "../features/company/pages/CreateCompany";
+import ManageEmployees from "@/features/employees/pages/ManageEmployees";
 
 export const router = createBrowserRouter([
   {
@@ -47,5 +48,8 @@ export const router = createBrowserRouter([
         <App />
       </ProtectedRoute>
     ),
+    children:[
+      {path : "manage-employees", element: <ManageEmployees />},
+    ]
   },
 ]);

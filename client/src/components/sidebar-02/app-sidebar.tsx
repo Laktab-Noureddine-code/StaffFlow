@@ -29,23 +29,22 @@ const dashboardRoutes: Route[] = [
   {
     id: "dashboard",
     title: "Dashboard",
-    icon: <LayoutDashboard className="size-4" />,
+    icon: <LayoutDashboard className="size-4 text-app" />,
     link: "/dashboard",
   },
   {
     id: "employees",
     title: "Employees",
-    icon: <Users className="size-4" />,
-    link: "/dashboard/employees",
+    icon: <Users className="size-4 text-app" />,
+    link: "/dashboard/manage-employees",
     subs: [
-      { title: "All Employees", link: "/dashboard/employees" },
-      { title: "Add Employee", link: "/dashboard/employees/add" },
+      { title: "Manage Employees", link: "/dashboard/manage-employees" },
     ],
   },
   {
     id: "checklist",
     title: "Checklist",
-    icon: <CheckSquare className="size-4" />,
+    icon: <CheckSquare className="size-4 text-app" />,
     link: "/dashboard/checklist",
     subs: [
       { title: "Onboarding", link: "/dashboard/checklist/onboarding" },
@@ -55,7 +54,7 @@ const dashboardRoutes: Route[] = [
   {
     id: "time-off",
     title: "Time Off",
-    icon: <CalendarOff className="size-4" />,
+    icon: <CalendarOff className="size-4 text-app" />,
     link: "/dashboard/time-off",
     subs: [
       { title: "Requests", link: "/dashboard/time-off/requests" },
@@ -65,7 +64,7 @@ const dashboardRoutes: Route[] = [
   {
     id: "attendance",
     title: "Attendance",
-    icon: <UserCheck className="size-4" />,
+    icon: <UserCheck className="size-4 text-app" />,
     link: "/dashboard/attendance",
     subs: [
       { title: "Daily Log", link: "/dashboard/attendance/daily" },
@@ -75,7 +74,7 @@ const dashboardRoutes: Route[] = [
   {
     id: "payroll",
     title: "Payroll",
-    icon: <DollarSign className="size-4" />,
+    icon: <DollarSign className="size-4 text-app" />,
     link: "/dashboard/payroll",
     subs: [
       { title: "Payslips", link: "/dashboard/payroll/payslips" },
@@ -85,7 +84,7 @@ const dashboardRoutes: Route[] = [
   {
     id: "performance",
     title: "Performance",
-    icon: <TrendingUp className="size-4" />,
+    icon: <TrendingUp className="size-4 text-app" />,
     link: "/dashboard/performance",
     subs: [
       { title: "Reviews", link: "/dashboard/performance/reviews" },
@@ -95,7 +94,7 @@ const dashboardRoutes: Route[] = [
   {
     id: "recruitment",
     title: "Recruitment",
-    icon: <ClipboardList className="size-4" />,
+    icon: <ClipboardList className="size-4 text-app" />,
     link: "/dashboard/recruitment",
     subs: [
       { title: "Job Postings", link: "/dashboard/recruitment/jobs" },
@@ -108,13 +107,13 @@ const footerRoutes: Route[] = [
   {
     id: "help-center",
     title: "Help Center",
-    icon: <CircleHelp className="size-4" />,
+    icon: <CircleHelp className="size-4 text-app" />,
     link: "/dashboard/help",
   },
   {
     id: "settings",
     title: "Setting",
-    icon: <Settings className="size-4" />,
+    icon: <Settings className="size-4 text-app" />,
     link: "/dashboard/settings",
   },
 ];
@@ -127,9 +126,7 @@ export function DashboardSidebar() {
     <Sidebar variant="inset" collapsible="icon">
       {/* Header: Company logo + name + collapse trigger */}
       <SidebarHeader className="flex flex-row items-center justify-between px-3 py-4">
-        <CompanyLogo
-          isCollapsed={isCollapsed}
-        />
+        <CompanyLogo isCollapsed={isCollapsed} />
         {!isCollapsed && <SidebarTrigger className="shrink-0" />}
       </SidebarHeader>
 

@@ -6,8 +6,9 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Outlet } from "react-router-dom";
 
-function DashboardContent() {
+function DashboardContent({ children }: { children: React.ReactNode }) {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
 
@@ -24,7 +25,8 @@ function DashboardContent() {
         </div>
       </div>
       {/* Page content goes here */}
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-4 bg-gray-50">
+        {children}
       </div>
     </SidebarInset>
   );
@@ -33,9 +35,11 @@ function DashboardContent() {
 export default function Dashboard() {
   return (
     <SidebarProvider>
-      <div className="relative flex h-dvh w-full">
+      <div className="relative flex w-full">
         <DashboardSidebar />
-        <DashboardContent />
+        <DashboardContent>
+          <Outlet/>
+        </DashboardContent>
       </div>
     </SidebarProvider>
   );

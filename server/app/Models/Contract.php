@@ -14,6 +14,7 @@ class Contract extends Model
     protected $fillable = [
         'employee_id',
         'start_date',
+        'gross_salary',
         'end_date',
         'type',
         'status'

@@ -36,7 +36,7 @@ class Employee extends Model
         'telephone_contact_urgence',
         
         // Informations professionnelles
-        'entreprise_id',
+        'company_id',
         'departement_id',
         'date_embauche',
         'poste',

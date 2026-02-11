@@ -15,10 +15,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, LayoutGrid } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export type Route = {
   id: string;
@@ -36,16 +36,41 @@ export default function DashboardNavigation({ routes }: { routes: Route[] }) {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
   const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
+  const location = useLocation();
 
   return (
     <SidebarMenu>
       {routes.map((route) => {
         const isOpen = !isCollapsed && openCollapsible === route.id;
         const hasSubRoutes = !!route.subs?.length;
+        const isDashboard = route.id === "dashboard";
+        const isActive = location.pathname === route.link;
 
         return (
           <SidebarMenuItem key={route.id}>
-            {hasSubRoutes ? (
+            {isDashboard ? (
+              <SidebarMenuButton tooltip={route.title} asChild>
+                <Link
+                  to={route.link}
+                  className={cn(
+                    "flex items-center px-3 py-2.5 transition-all bg-emerald-500 text-white shadow-md hover:bg-emerald-500 hover:shadow-md",
+                    isCollapsed ? "justify-center" : "justify-between"
+                  )}
+                >
+                  <div className="flex items-center">
+                    {!isCollapsed && (
+                      <span className="text-sm font-semibold">
+                        {route.title}
+                      </span>
+                    )}
+                    {isCollapsed && <LayoutGrid className="size-4" />}
+                  </div>
+                  {!isCollapsed && (
+                    <LayoutGrid className="size-4 opacity-80" />
+                  )}
+                </Link>
+              </SidebarMenuButton>
+            ) : hasSubRoutes ? (
               <Collapsible
                 open={isOpen}
                 onOpenChange={(open) =>
@@ -63,6 +88,7 @@ export default function DashboardNavigation({ routes }: { routes: Route[] }) {
                       isCollapsed && "justify-center"
                     )}
                   >
+                    
                     {route.icon}
                     {!isCollapsed && (
                       <span className="ml-2 flex-1 text-sm font-medium">

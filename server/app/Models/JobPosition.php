@@ -10,7 +10,7 @@ class JobPosition extends Model
     /** @use HasFactory<\Database\Factories\JobPositionFactory> */
     use HasFactory;
     protected $fillable = [
-        'name',
+        'title',
         'description',
     ];
 
