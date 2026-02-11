@@ -1,10 +1,12 @@
+import { TooltipProvider } from "./components/ui/tooltip";
 import Dashboard from "./features/dashboard/Dashboard";
 
 function App() {
   return (
-    <Dashboard>
-    </Dashboard>
-  )
+    <TooltipProvider>
+      <Dashboard />
+    </TooltipProvider>
+  );
 }
 
-export default App
+export default App;

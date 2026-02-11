@@ -3,6 +3,7 @@ import { useAuth } from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/authSlice";
+import { setCompany } from "../redux/slices/compaySlice";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -10,7 +11,6 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, company, loading } = useAuth();
-  console.log("ProtectedRoute: user =", user, "company =", company, "loading =", loading);
   const dispatch = useDispatch();
 
   if (loading) return <div>loading...</div>;
@@ -18,6 +18,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   if (!company) return <Navigate to="/onboarding/company" />;
 
   dispatch(setUser(user));
+  dispatch(setCompany(company));
   return <>{children}</>;
 };
 

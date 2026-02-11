@@ -9,7 +9,6 @@ export const useAuth = () => {
     api
       .get("/api/me")
       .then((res) => {
-        console.log("useAuth: API response =", res.data);
         setUser(res.data?.user ?? null);
         setCompany(res.data?.company ?? null);
       })
