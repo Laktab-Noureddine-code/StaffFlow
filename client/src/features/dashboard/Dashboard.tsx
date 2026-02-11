@@ -1,4 +1,5 @@
 import { DashboardSidebar } from "@/components/sidebar-02/app-sidebar";
+import DashboardNavbar from "@/components/shared/DashboardNavbar";
 import {
   SidebarInset,
   SidebarProvider,
@@ -12,11 +13,19 @@ function DashboardContent() {
 
   return (
     <SidebarInset className="flex flex-col">
-      {isCollapsed && (
-        <div className="p-3">
-          <SidebarTrigger />
+      <div className="flex items-center">
+        {isCollapsed && (
+          <div className="px-3">
+            <SidebarTrigger />
+          </div>
+        )}
+        <div className="flex-1">
+          <DashboardNavbar />
         </div>
-      )}
+      </div>
+      {/* Page content goes here */}
+      <div className="flex-1 p-6">
+      </div>
     </SidebarInset>
   );
 }

@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/authSlice";
 import { setCompany } from "../redux/slices/compaySlice";
+import Loading from "@/components/shared/Loading";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -13,7 +14,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, company, loading } = useAuth();
   const dispatch = useDispatch();
 
-  if (loading) return <div>loading...</div>;
+  if (loading) return <Loading/>;
   if (!user) return <Navigate to="/login" />;
   if (!company) return <Navigate to="/onboarding/company" />;
 
@@ -26,7 +27,7 @@ export const AuthenticatedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
   const dispatch = useDispatch();
 
-  if (loading) return <div>loading...</div>;
+  if (loading) return <Loading/>;
   if (!user) return <Navigate to="/login" />;
 
   dispatch(setUser(user));
@@ -35,7 +36,7 @@ export const AuthenticatedRoute = ({ children }: ProtectedRouteProps) => {
 export const GuestRoute = ({ children }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
   if (user) return <Navigate to="/dashboard" />;
 
   return <>{children}</>;
