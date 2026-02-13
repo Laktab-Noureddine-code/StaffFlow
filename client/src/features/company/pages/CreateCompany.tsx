@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Navbar from "../../../components/shared/Navbar";
 import CompanyForms from "../components/CompanyForms";
-import { validateStep, type CompanyErrors } from "../schemas/companySchema";
+import { validateStep, type CompanyErrors, type CompanyData } from "../schemas/companySchema";
 import api from "@/api/axios";
 import { setCompany } from "@/redux/slices/companySlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 
 const companySizes = ["1-10", "11-50", "51-100", "101-200", "201-500", "500+"];
@@ -17,7 +18,7 @@ function CreateCompany() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const [companyData, setCompanyData] = useState({
+  const [companyData, setCompanyData] = useState<CompanyData>({
     company_name: "",
     ice: "",
     cnss_employer_number: "",
@@ -37,12 +38,14 @@ function CreateCompany() {
   const [errors, setErrors] = useState<CompanyErrors>({});
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
+  const [loading, setLoading] = useState(false);
 
   const handleBack = () => {
     if (currentStep > 1) setCurrentStep((s) => s - 1);
   };
 
   const handleContinue = async () => {
+
     const stepErrors = validateStep(currentStep, companyData);
     if (Object.keys(stepErrors).length > 0) {
       setErrors(stepErrors);
@@ -53,9 +56,19 @@ function CreateCompany() {
     if (currentStep < totalSteps) {
       setCurrentStep((s) => s + 1);
     } else {
-      const company = await api.post("/api/companies", companyData);
-      dispatch(setCompany(company.data));
-      return  navigate("/dashboard") ;
+      try{
+        setLoading(true);
+        const company = await api.post("/api/companies", companyData);
+        if(company.status === 201){
+          dispatch(setCompany(company.data));
+          setLoading(false);
+          return  navigate("/dashboard") ;
+        }
+      }catch(err){
+        toast.error("Failed to create company. Please try again.");
+      }finally{
+        setLoading(false);
+      }
     }
   };
 
@@ -112,7 +125,8 @@ function CreateCompany() {
               <button
                 type="button"
                 onClick={handleContinue}
-                className="px-8 py-2.5 bg-black hover:bg-gray-900 text-white rounded-lg text-sm font-medium transition cursor-pointer"
+                className={`px-8 py-2.5 bg-black hover:bg-gray-900 text-white rounded-lg text-sm font-medium transition cursor-pointer ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                disabled={loading}
               >
                 {currentStep === totalSteps
                   ? t("company.complete")
@@ -129,6 +143,7 @@ function CreateCompany() {
             updateField={updateField}
             companySizes={companySizes}
             statusOptions={statusOptions}
+            loading={loading}
           />
         </div>
       </div>

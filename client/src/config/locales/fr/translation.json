@@ -5,7 +5,9 @@
     "required": "Ce champ est obligatoire",
     "email": "Veuillez entrer une adresse email valide",
     "numeric": "Ce champ doit être un nombre",
-    "maxLength": "Ne doit pas dépasser {{max}} caractères"
+    "maxLength": "Ne doit pas dépasser {{max}} caractères",
+      "length": "Must be exactly {{length}} characters"
+
   },
   "company": {
     "stepOf": "Étape {{current}} sur {{total}}",

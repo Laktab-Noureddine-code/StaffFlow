@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Download, Plus, Eye, Pencil, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import DataTable, { type Column } from "@/components/shared/DataTable";
-import StatusBadge, { type BadgeVariant } from "@/components/shared/StatusBadge";
+import StatusBadge from "@/components/shared/StatusBadge";
 import SearchInput from "@/components/shared/SearchInput";
 import FilterDropdown from "@/components/shared/FilterDropdown";
 import Pagination from "@/components/shared/Pagination";

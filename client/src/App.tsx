@@ -1,10 +1,11 @@
 import { TooltipProvider } from "./components/ui/tooltip";
-import Dashboard from "./features/dashboard/Dashboard";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router/router.tsx";
 
 function App() {
   return (
     <TooltipProvider>
-      <Dashboard />
+      <RouterProvider router={router} />
     </TooltipProvider>
   );
 }

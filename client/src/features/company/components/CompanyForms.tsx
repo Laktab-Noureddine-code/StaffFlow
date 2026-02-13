@@ -16,12 +16,8 @@ interface CompanyFormsProps {
   updateField: (field: string, value: string) => void;
   companySizes: string[];
   statusOptions: string[];
+  loading: boolean;
 }
-
-const inputClass =
-  "w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-600 focus:border-transparent outline-none transition";
-const inputErrorClass =
-  "w-full px-4 py-2.5 border border-red-400 rounded-lg text-sm focus:ring-2 focus:ring-red-400 focus:border-transparent outline-none transition";
 
 function ErrorMessage({ message }: { message?: string }) {
   if (!message) return null;
@@ -34,14 +30,14 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
   /* ───── Step 1: Company Name, Domain & Size ───── */
   if (step === 1) {
     return (
-      <div className="lg:w-[55%] bg-gray-100 p-3 rounded-2xl">
+      <div className="lg:w-[55%] bg-gray-100 p-3 rounded-2xl ">
         <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">
             {t("company.step1.formTitle")}
           </h2>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-500 mb-1.5">
+            <label className="form-label">
               {t("company.step1.companyName")} <span className="text-red-500">*</span>
             </label>
             <input
@@ -49,7 +45,7 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
               value={data.company_name}
               onChange={(e) => updateField("company_name", e.target.value)}
               placeholder={t("company.step1.placeholderName")}
-              className={errors.company_name ? inputErrorClass : inputClass}
+              className={errors.company_name ? "form-error" : "form-input"}
             />
             <ErrorMessage message={errors.company_name} />
           </div>
@@ -95,14 +91,14 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
   /* ───── Step 2: Legal / Registration Details ───── */
   if (step === 2) {
     return (
-      <div className="lg:w-[55%]">
+      <div className="lg:w-[55%] bg-gray-100 p-3 rounded-2xl">
         <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">
             {t("company.step2.formTitle")}
           </h2>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-500 mb-1.5">
+            <label className="form-label">
               {t("company.step2.ice")} <span className="text-red-500">*</span>
             </label>
             <input
@@ -110,21 +106,21 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
               value={data.ice}
               onChange={(e) => updateField("ice", e.target.value)}
               placeholder={t("company.step2.placeholderIce")}
-              className={errors.ice ? inputErrorClass : inputClass}
+              className={errors.ice ? "form-error" : "form-input"}
             />
             <ErrorMessage message={errors.ice} />
           </div>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-500 mb-1.5">
-              {t("company.step2.cnssEmployerNumber")} <span className="text-red-500">*</span>
+            <label className="form-label">
+              {t("company.step2.cnssEmployerNumber")}
             </label>
             <input
               type="text"
-              value={data.cnss_employer_number}
+              value={data.cnss_employer_number ?? ""}
               onChange={(e) => updateField("cnss_employer_number", e.target.value)}
               placeholder={t("company.step2.placeholderCnss")}
-              className={errors.cnss_employer_number ? inputErrorClass : inputClass}
+              className={errors.cnss_employer_number ? "form-error" : "form-input"}
             />
             <ErrorMessage message={errors.cnss_employer_number} />
           </div>
@@ -141,14 +137,14 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
   /* ───── Step 3: Address & Contact ───── */
   if (step === 3) {
     return (
-      <div className="lg:w-[55%]">
+      <div className="lg:w-[55%] bg-gray-100 p-3 rounded-2xl">
         <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">
             {t("company.step3.formTitle")}
           </h2>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-500 mb-1.5">
+            <label className="form-label">
               {t("company.step3.address")} <span className="text-red-500">*</span>
             </label>
             <input
@@ -156,13 +152,13 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
               value={data.address}
               onChange={(e) => updateField("address", e.target.value)}
               placeholder={t("company.step3.placeholderAddress")}
-              className={errors.address ? inputErrorClass : inputClass}
+              className={errors.address ? "form-error" : "form-input"}
             />
             <ErrorMessage message={errors.address} />
           </div>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-500 mb-1.5">
+            <label className="form-label">
               {t("company.step3.city")} <span className="text-red-500">*</span>
             </label>
             <input
@@ -170,13 +166,13 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
               value={data.city}
               onChange={(e) => updateField("city", e.target.value)}
               placeholder={t("company.step3.placeholderCity")}
-              className={errors.city ? inputErrorClass : inputClass}
+              className={errors.city ? "form-error" : "form-input"}
             />
             <ErrorMessage message={errors.city} />
           </div>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-500 mb-1.5">
+            <label className="form-label">
               {t("company.step3.phone")} <span className="text-red-500">*</span>
             </label>
             <input
@@ -184,7 +180,7 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
               value={data.phone}
               onChange={(e) => updateField("phone", e.target.value)}
               placeholder={t("company.step3.placeholderPhone")}
-              className={errors.phone ? inputErrorClass : inputClass}
+              className={errors.phone ? "form-error" : "form-input"}
             />
             <ErrorMessage message={errors.phone} />
           </div>
@@ -196,14 +192,14 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
   /* ───── Step 4: Email, Logo & Status ───── */
   if (step === 4) {
     return (
-      <div className="lg:w-[55%]">
+      <div className="lg:w-[55%] bg-gray-100 p-3 rounded-2xl">
         <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">
             {t("company.step4.formTitle")}
           </h2>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-500 mb-1.5">
+            <label className="form-label">
               {t("company.step4.email")} <span className="text-red-500">*</span>
             </label>
             <input
@@ -211,13 +207,13 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
               value={data.email}
               onChange={(e) => updateField("email", e.target.value)}
               placeholder={t("company.step4.placeholderEmail")}
-              className={errors.email ? inputErrorClass : inputClass}
+              className={errors.email ? "form-error" : "form-input"}
             />
             <ErrorMessage message={errors.email} />
           </div>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-500 mb-1.5">
+            <label className="form-label">
               {t("company.step4.logoUrl")}
             </label>
             <input
@@ -225,13 +221,13 @@ function CompanyForms({ step, data, errors, updateField, companySizes, statusOpt
               value={data.logo_url}
               onChange={(e) => updateField("logo_url", e.target.value)}
               placeholder={t("company.step4.placeholderLogo")}
-              className={errors.logo_url ? inputErrorClass : inputClass}
+              className={errors.logo_url ? "form-error" : "form-input"}
             />
             <ErrorMessage message={errors.logo_url} />
           </div>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-500 mb-1.5">
+            <label className="form-label">
               {t("company.step4.status")} <span className="text-red-500">*</span>
             </label>
             <Select value={data.status} onValueChange={(v) => updateField("status", v)}>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
 import api, { getCsrfCookie } from "../../api/axios";
+import { toast } from "sonner";
 
 function Register() {
   const [name, setName] = useState<string>("");
@@ -34,7 +35,7 @@ function Register() {
     } catch (err: any) {
       setLoading(false);
       setError(err.response?.data?.message || "Registration failed. Please try again.");
-      console.error("Registration failed:", err);
+      toast.error("Registration failed: " + (err.response?.data?.message || "Please try again."));
     }
   };
 

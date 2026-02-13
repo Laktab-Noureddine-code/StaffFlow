@@ -11,17 +11,22 @@ export function createCompanySchema() {
       .max(255, { message: t("validation.maxLength", { max: 255 }) }),
     ice: z
       .string()
-      .min(1, { message: t("validation.required") })
-      .max(15, { message: t("validation.maxLength", { max: 15 }) }),
+      .regex(/^\d+$/, { message: t("validation.numeric") })
+      .length(15, { message: t("validation.length", { length: 15 }) }),
+
     cnss_employer_number: z
       .string()
-      .refine(
-        (val) => !val || /^\d+$/.test(val),
-        { message: t("validation.numeric") }
-      ),
-    company_size: z.enum(["1-10", "11-50", "51-100", "101-200", "201-500", "500+"], {
-      message: t("validation.required"),
-    }),
+      .refine((val) => !val || /^\d+$/.test(val), {
+        message: t("validation.numeric"),
+      })
+      .nullable()
+      .optional(),
+    company_size: z.enum(
+      ["1-10", "11-50", "51-100", "101-200", "201-500", "500+"],
+      {
+        message: t("validation.required"),
+      },
+    ),
     address: z
       .string()
       .min(1, { message: t("validation.required") })

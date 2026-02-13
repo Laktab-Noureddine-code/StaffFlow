@@ -5,7 +5,9 @@
     "required": "This field is required",
     "email": "Please enter a valid email address",
     "numeric": "This field must be a number",
-    "maxLength": "Must not exceed {{max}} characters"
+    "maxLength": "Must not exceed {{max}} characters",
+      "length": "Must be exactly {{length}} characters"
+
   },
   "company": {
     "stepOf": "Step {{current}} of {{total}}",

@@ -1,48 +1,20 @@
-import { DashboardSidebar } from "@/components/sidebar-02/app-sidebar";
+import Sidebar from "@/components/Sidebar";
 import DashboardNavbar from "@/components/shared/DashboardNavbar";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-  useSidebar,
-} from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
-
-function DashboardContent({ children }: { children: React.ReactNode }) {
-  const { state } = useSidebar();
-  const isCollapsed = state === "collapsed";
-
-  return (
-    <SidebarInset className="flex flex-col">
-      <div className="flex items-center">
-        {isCollapsed && (
-          <div className="px-3">
-            <SidebarTrigger />
-          </div>
-        )}
-        <div className="flex-1">
-          <DashboardNavbar />
-        </div>
-      </div>
-      {/* Page content goes here */}
-      <div className="flex-1 p-4 bg-gray-50">
-        <div className="bg-white rounded-lg shadow-sm p-4 h-full overflow-hidden">
-          {children}
-        </div>
-      </div>
-    </SidebarInset>
-  );
-}
 
 export default function Dashboard() {
   return (
-    <SidebarProvider>
-      <div className="relative flex w-full">
-        <DashboardSidebar />
-        <DashboardContent>
-          <Outlet />
-        </DashboardContent>
+    <div className="flex h-screen w-full">
+      <Sidebar />
+      <div className="flex flex-1 flex-col ">
+        <DashboardNavbar />
+        {/* Page content */}
+        <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+          <div className="bg-white rounded-lg shadow-sm p-4 h-full ">
+            <Outlet />
+          </div>
+        </div>
       </div>
-    </SidebarProvider>
+    </div>
   );
 }

@@ -5,6 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import api, { getCsrfCookie } from "../../api/axios";
 import { useDispatch } from "react-redux";
 import { startLogin } from "../../redux/slices/authSlice";
+import { toast } from "sonner";
 
 function Login() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -26,8 +27,9 @@ function Login() {
         dispatch(startLogin());
         navigate("/dashboard");
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      console.error("Login failed:", err);
+      toast.error("Login failed. Please check your credentials and try again.");
     } finally {
       setLoading(false);
     }
@@ -107,7 +109,7 @@ function Login() {
           <button
             type="submit"
             className={`w-full ${email && password ? "opacity-100" : "opacity-50 cursor-not-allowed"} py-3 bg-[#121828]/90 cursor-pointer hover:bg-[#121828] text-white font-medium rounded-lg transition`}
-            disabled={!email || !password}
+            disabled={!email || !password || loading}
           >
             {loading ? "Loading..." : "Login"}
           </button>

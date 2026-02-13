@@ -22,7 +22,9 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
+
         $employee = Employee::create($request->validated());
+        dd($request);
         return response()->json($employee, 201);
     }
 

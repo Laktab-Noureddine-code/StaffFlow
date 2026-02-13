@@ -1,12 +1,12 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Login from "../features/auth/Login";
 import {
   AuthenticatedRoute,
   GuestRoute,
   ProtectedRoute,
 } from "./ProtectedRoute";
-import App from "../App";
 import Register from "../features/auth/Register";
+import Dashboard from "../features/dashboard/Dashboard";
 import CreateCompany from "../features/company/pages/CreateCompany";
 import ManageEmployees from "@/features/employees/pages/ManageEmployees";
 import AddEmployee from "@/features/employees/pages/AddEmployee";
@@ -14,11 +14,7 @@ import AddEmployee from "@/features/employees/pages/AddEmployee";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <ProtectedRoute>
-        <App />
-      </ProtectedRoute>
-    ),
+    element: <Navigate to="/dashboard" replace />,
   },
   // Auth Routes
   {
@@ -50,7 +46,7 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <ProtectedRoute>
-        <App />
+        <Dashboard />
       </ProtectedRoute>
     ),
     children: [

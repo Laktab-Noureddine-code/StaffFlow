@@ -1,6 +1,6 @@
 // c:\Users\noure\Desktop\HREM\client\src\features\employees\pages\AddEmployee.tsx
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import PageHeader from "../components/PageHeader";
@@ -23,8 +23,9 @@ import {
   employeeStatusEnum,
 } from "../schemas/employeeSchema";
 import api from "@/api/axios";
-import type { z } from "zod";
+// import type { z } from "zod";
 import ErrorMessage from "@/components/shared/ErrorMessage";
+import { useSelector } from "react-redux";
 
 // ── Types ──
 type EmployeeData = {
@@ -84,17 +85,30 @@ const TOTAL_STEPS = STEPS.length;
 // Fields per step for validation
 const stepFields: Record<number, (keyof EmployeeData)[]> = {
   1: [
-    "matricule_employe", "nom_complet", "cin", "date_expiration_cin",
-    "date_naissance", "lieu_naissance", "sexe", "situation_familiale",
-    "adresse", "ville", "code_postal", "telephone_mobile", "email_personnel",
+    "matricule_employe",
+    "nom_complet",
+    "cin",
+    "date_expiration_cin",
+    "date_naissance",
+    "lieu_naissance",
+    "sexe",
+    "situation_familiale",
+    "adresse",
+    "ville",
+    "code_postal",
+    "telephone_mobile",
+    "email_personnel",
   ],
   2: ["company_id", "departement_id", "date_embauche", "poste", "statut"],
-  3: ["type_contrat", "date_debut_contrat", "regime_travail", "heures_par_semaine"],
+  3: [
+    "type_contrat",
+    "date_debut_contrat",
+    "regime_travail",
+    "heures_par_semaine",
+  ],
   4: ["salaire_brut_mensuel", "mode_paiement"],
   5: [],
 };
-
-
 
 // ── Component ──
 function AddEmployee() {
@@ -144,11 +158,18 @@ function AddEmployee() {
     date_inscription_cnss: "",
     statut_cnss: "Non Inscrit",
   });
+  const companyId = useSelector((state: any) => state.company).id;
 
-  const updateField = (field: keyof EmployeeData, value: string | number | null) => {
+  const updateField = (
+    field: keyof EmployeeData,
+    value: string | number | null,
+  ) => {
     setData((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
+  useEffect(() => {
+    updateField("company_id", companyId);
+  }, [companyId]);
 
   // Validate current step
   const validateCurrentStep = (): boolean => {
@@ -202,7 +223,7 @@ function AddEmployee() {
   };
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="p-4 space-y-6 ">
       <PageHeader
         title="Add Employee"
         subtitle="Add a new employee to your company"
@@ -223,8 +244,8 @@ function AddEmployee() {
                     isCompleted
                       ? "bg-gray-900 border-gray-900 text-white"
                       : isActive
-                      ? "border-gray-900 text-gray-900"
-                      : "border-gray-300 text-gray-400"
+                        ? "border-gray-900 text-gray-900"
+                        : "border-gray-300 text-gray-400"
                   }`}
                 >
                   {isCompleted ? <Check className="size-3.5" /> : stepNum}
@@ -254,23 +275,35 @@ function AddEmployee() {
         {/* ───── Step 1: Personal Information ───── */}
         {currentStep === 1 && (
           <div className="space-y-5">
-            <h2 className="text-lg font-semibold text-gray-900 mb-1">Personal Information</h2>
-            <p className="text-sm text-gray-400 mb-6">Basic identity and contact details</p>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">
+              Personal Information
+            </h2>
+            <p className="text-sm text-gray-400 mb-6">
+              Basic identity and contact details
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="form-label">Employee ID <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Employee ID <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   value={data.matricule_employe}
-                  onChange={(e) => updateField("matricule_employe", e.target.value)}
+                  onChange={(e) =>
+                    updateField("matricule_employe", e.target.value)
+                  }
                   placeholder="e.g. EMP-001"
-                  className={errors.matricule_employe ? "form-error" : "form-input"}
+                  className={
+                    errors.matricule_employe ? "form-error" : "form-input"
+                  }
                 />
                 <ErrorMessage message={errors.matricule_employe} />
               </div>
               <div>
-                <label className="form-label">Full Name <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Full Name <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   value={data.nom_complet}
@@ -281,7 +314,9 @@ function AddEmployee() {
                 <ErrorMessage message={errors.nom_complet} />
               </div>
               <div>
-                <label className="form-label">CIN <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  CIN <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   value={data.cin}
@@ -292,59 +327,95 @@ function AddEmployee() {
                 <ErrorMessage message={errors.cin} />
               </div>
               <div>
-                <label className="form-label">CIN Expiry Date <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  CIN Expiry Date <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="date"
                   value={data.date_expiration_cin}
-                  onChange={(e) => updateField("date_expiration_cin", e.target.value)}
-                  className={errors.date_expiration_cin ? "form-error" : "form-input"}
+                  onChange={(e) =>
+                    updateField("date_expiration_cin", e.target.value)
+                  }
+                  className={
+                    errors.date_expiration_cin ? "form-error" : "form-input"
+                  }
                 />
                 <ErrorMessage message={errors.date_expiration_cin} />
               </div>
               <div>
-                <label className="form-label">Date of Birth <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Date of Birth <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="date"
                   value={data.date_naissance}
-                  onChange={(e) => updateField("date_naissance", e.target.value)}
-                  className={errors.date_naissance ? "form-error" : "form-input"}
+                  onChange={(e) =>
+                    updateField("date_naissance", e.target.value)
+                  }
+                  className={
+                    errors.date_naissance ? "form-error" : "form-input"
+                  }
                 />
                 <ErrorMessage message={errors.date_naissance} />
               </div>
               <div>
-                <label className="form-label">Place of Birth <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Place of Birth <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   value={data.lieu_naissance}
-                  onChange={(e) => updateField("lieu_naissance", e.target.value)}
+                  onChange={(e) =>
+                    updateField("lieu_naissance", e.target.value)
+                  }
                   placeholder="City of birth"
-                  className={errors.lieu_naissance ? "form-error" : "form-input"}
+                  className={
+                    errors.lieu_naissance ? "form-error" : "form-input"
+                  }
                 />
                 <ErrorMessage message={errors.lieu_naissance} />
               </div>
               <div>
-                <label className="form-label">Gender <span className="text-red-500">*</span></label>
-                <Select value={data.sexe} onValueChange={(v) => updateField("sexe", v)}>
-                  <SelectTrigger className={`w-full ${errors.sexe ? "border-red-400" : ""}`}>
+                <label className="form-label">
+                  Gender <span className="text-red-500">*</span>
+                </label>
+                <Select
+                  value={data.sexe}
+                  onValueChange={(v) => updateField("sexe", v)}
+                >
+                  <SelectTrigger
+                    className={`w-full ${errors.sexe ? "border-red-400" : ""}`}
+                  >
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
                   <SelectContent>
                     {genderEnum.map((g) => (
-                      <SelectItem key={g} value={g} className="capitalize">{g}</SelectItem>
+                      <SelectItem key={g} value={g} className="capitalize">
+                        {g}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <ErrorMessage message={errors.sexe} />
               </div>
               <div>
-                <label className="form-label">Marital Status <span className="text-red-500">*</span></label>
-                <Select value={data.situation_familiale} onValueChange={(v) => updateField("situation_familiale", v)}>
-                  <SelectTrigger className={`w-full ${errors.situation_familiale ? "border-red-400" : ""}`}>
+                <label className="form-label">
+                  Marital Status <span className="text-red-500">*</span>
+                </label>
+                <Select
+                  value={data.situation_familiale}
+                  onValueChange={(v) => updateField("situation_familiale", v)}
+                >
+                  <SelectTrigger
+                    className={`w-full ${errors.situation_familiale ? "border-red-400" : ""}`}
+                  >
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
                     {maritalStatusEnum.map((s) => (
-                      <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>
+                      <SelectItem key={s} value={s} className="capitalize">
+                        {s}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -366,7 +437,9 @@ function AddEmployee() {
                   type="number"
                   min={0}
                   value={data.nombre_enfants}
-                  onChange={(e) => updateField("nombre_enfants", parseInt(e.target.value) || 0)}
+                  onChange={(e) =>
+                    updateField("nombre_enfants", parseInt(e.target.value) || 0)
+                  }
                   className={"form-input"}
                 />
               </div>
@@ -374,10 +447,14 @@ function AddEmployee() {
 
             {/* Address + Contact Section */}
             <div className="border-t border-gray-100 pt-5 mt-5">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Address & Contact</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-4">
+                Address & Contact
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="md:col-span-2">
-                  <label className="form-label">Address <span className="text-red-500">*</span></label>
+                  <label className="form-label">
+                    Address <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     value={data.adresse}
@@ -388,7 +465,9 @@ function AddEmployee() {
                   <ErrorMessage message={errors.adresse} />
                 </div>
                 <div>
-                  <label className="form-label">City <span className="text-red-500">*</span></label>
+                  <label className="form-label">
+                    City <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     value={data.ville}
@@ -399,7 +478,9 @@ function AddEmployee() {
                   <ErrorMessage message={errors.ville} />
                 </div>
                 <div>
-                  <label className="form-label">Postal Code <span className="text-red-500">*</span></label>
+                  <label className="form-label">
+                    Postal Code <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     value={data.code_postal}
@@ -410,24 +491,36 @@ function AddEmployee() {
                   <ErrorMessage message={errors.code_postal} />
                 </div>
                 <div>
-                  <label className="form-label">Mobile Phone <span className="text-red-500">*</span></label>
+                  <label className="form-label">
+                    Mobile Phone <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="tel"
                     value={data.telephone_mobile}
-                    onChange={(e) => updateField("telephone_mobile", e.target.value)}
+                    onChange={(e) =>
+                      updateField("telephone_mobile", e.target.value)
+                    }
                     placeholder="+212 6XX XXX XXX"
-                    className={errors.telephone_mobile ? "form-error" : "form-input"}
+                    className={
+                      errors.telephone_mobile ? "form-error" : "form-input"
+                    }
                   />
                   <ErrorMessage message={errors.telephone_mobile} />
                 </div>
                 <div>
-                  <label className="form-label">Personal Email <span className="text-red-500">*</span></label>
+                  <label className="form-label">
+                    Personal Email <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="email"
                     value={data.email_personnel}
-                    onChange={(e) => updateField("email_personnel", e.target.value)}
+                    onChange={(e) =>
+                      updateField("email_personnel", e.target.value)
+                    }
                     placeholder="email@example.com"
-                    className={errors.email_personnel ? "form-error" : "form-input"}
+                    className={
+                      errors.email_personnel ? "form-error" : "form-input"
+                    }
                   />
                   <ErrorMessage message={errors.email_personnel} />
                 </div>
@@ -436,7 +529,9 @@ function AddEmployee() {
                   <input
                     type="text"
                     value={data.nom_contact_urgence}
-                    onChange={(e) => updateField("nom_contact_urgence", e.target.value)}
+                    onChange={(e) =>
+                      updateField("nom_contact_urgence", e.target.value)
+                    }
                     placeholder="Contact name"
                     className={"form-input"}
                   />
@@ -446,7 +541,9 @@ function AddEmployee() {
                   <input
                     type="tel"
                     value={data.telephone_contact_urgence}
-                    onChange={(e) => updateField("telephone_contact_urgence", e.target.value)}
+                    onChange={(e) =>
+                      updateField("telephone_contact_urgence", e.target.value)
+                    }
                     placeholder="Phone number"
                     className={"form-input"}
                   />
@@ -459,36 +556,36 @@ function AddEmployee() {
         {/* ───── Step 2: Professional Information ───── */}
         {currentStep === 2 && (
           <div className="space-y-5">
-            <h2 className="text-lg font-semibold text-gray-900 mb-1">Professional Information</h2>
-            <p className="text-sm text-gray-400 mb-6">Company, department, and role details</p>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">
+              Professional Information
+            </h2>
+            <p className="text-sm text-gray-400 mb-6">
+              Company, department, and role details
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="form-label">Company ID <span className="text-red-500">*</span></label>
-                <input
-                  type="number"
-                  min={1}
-                  value={data.company_id || ""}
-                  onChange={(e) => updateField("company_id", parseInt(e.target.value) || 0)}
-                  placeholder="Company ID"
-                  className={errors.company_id ? "form-error" : "form-input"}
-                />
-                <ErrorMessage message={errors.company_id} />
-              </div>
-              <div>
-                <label className="form-label">Department ID <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Department ID <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="number"
                   min={1}
                   value={data.departement_id || ""}
-                  onChange={(e) => updateField("departement_id", parseInt(e.target.value) || 0)}
+                  onChange={(e) =>
+                    updateField("departement_id", parseInt(e.target.value) || 0)
+                  }
                   placeholder="Department ID"
-                  className={errors.departement_id ? "form-error" : "form-input"}
+                  className={
+                    errors.departement_id ? "form-error" : "form-input"
+                  }
                 />
                 <ErrorMessage message={errors.departement_id} />
               </div>
               <div>
-                <label className="form-label">Job Title <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Job Title <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   value={data.poste}
@@ -499,7 +596,9 @@ function AddEmployee() {
                 <ErrorMessage message={errors.poste} />
               </div>
               <div>
-                <label className="form-label">Hire Date <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Hire Date <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="date"
                   value={data.date_embauche}
@@ -523,14 +622,23 @@ function AddEmployee() {
                 />
               </div>
               <div>
-                <label className="form-label">Status <span className="text-red-500">*</span></label>
-                <Select value={data.statut} onValueChange={(v) => updateField("statut", v)}>
-                  <SelectTrigger className={`w-full ${errors.statut ? "border-red-400" : ""}`}>
+                <label className="form-label">
+                  Status <span className="text-red-500">*</span>
+                </label>
+                <Select
+                  value={data.statut}
+                  onValueChange={(v) => updateField("statut", v)}
+                >
+                  <SelectTrigger
+                    className={`w-full ${errors.statut ? "border-red-400" : ""}`}
+                  >
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
                     {employeeStatusEnum.map((s) => (
-                      <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>
+                      <SelectItem key={s} value={s} className="capitalize">
+                        {s}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -553,31 +661,50 @@ function AddEmployee() {
         {/* ───── Step 3: Contract Details ───── */}
         {currentStep === 3 && (
           <div className="space-y-5">
-            <h2 className="text-lg font-semibold text-gray-900 mb-1">Contract Details</h2>
-            <p className="text-sm text-gray-400 mb-6">Contract type, duration, and work schedule</p>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">
+              Contract Details
+            </h2>
+            <p className="text-sm text-gray-400 mb-6">
+              Contract type, duration, and work schedule
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="form-label">Contract Type <span className="text-red-500">*</span></label>
-                <Select value={data.type_contrat} onValueChange={(v) => updateField("type_contrat", v)}>
-                  <SelectTrigger className={`w-full ${errors.type_contrat ? "border-red-400" : ""}`}>
+                <label className="form-label">
+                  Contract Type <span className="text-red-500">*</span>
+                </label>
+                <Select
+                  value={data.type_contrat}
+                  onValueChange={(v) => updateField("type_contrat", v)}
+                >
+                  <SelectTrigger
+                    className={`w-full ${errors.type_contrat ? "border-red-400" : ""}`}
+                  >
                     <SelectValue placeholder="Select contract type" />
                   </SelectTrigger>
                   <SelectContent>
                     {contractTypeEnum.map((c) => (
-                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                      <SelectItem key={c} value={c}>
+                        {c}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <ErrorMessage message={errors.type_contrat} />
               </div>
               <div>
-                <label className="form-label">Contract Start Date <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Contract Start Date <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="date"
                   value={data.date_debut_contrat}
-                  onChange={(e) => updateField("date_debut_contrat", e.target.value)}
-                  className={errors.date_debut_contrat ? "form-error" : "form-input"}
+                  onChange={(e) =>
+                    updateField("date_debut_contrat", e.target.value)
+                  }
+                  className={
+                    errors.date_debut_contrat ? "form-error" : "form-input"
+                  }
                 />
                 <ErrorMessage message={errors.date_debut_contrat} />
               </div>
@@ -586,7 +713,9 @@ function AddEmployee() {
                 <input
                   type="date"
                   value={data.date_fin_contrat}
-                  onChange={(e) => updateField("date_fin_contrat", e.target.value)}
+                  onChange={(e) =>
+                    updateField("date_fin_contrat", e.target.value)
+                  }
                   className={"form-input"}
                 />
               </div>
@@ -596,7 +725,12 @@ function AddEmployee() {
                   type="number"
                   min={0}
                   value={data.periode_essai_mois}
-                  onChange={(e) => updateField("periode_essai_mois", parseInt(e.target.value) || 0)}
+                  onChange={(e) =>
+                    updateField(
+                      "periode_essai_mois",
+                      parseInt(e.target.value) || 0,
+                    )
+                  }
                   className={"form-input"}
                 />
               </div>
@@ -605,32 +739,52 @@ function AddEmployee() {
                 <input
                   type="date"
                   value={data.date_fin_essai}
-                  onChange={(e) => updateField("date_fin_essai", e.target.value)}
+                  onChange={(e) =>
+                    updateField("date_fin_essai", e.target.value)
+                  }
                   className={"form-input"}
                 />
               </div>
               <div>
-                <label className="form-label">Work Regime <span className="text-red-500">*</span></label>
-                <Select value={data.regime_travail} onValueChange={(v) => updateField("regime_travail", v)}>
-                  <SelectTrigger className={`w-full ${errors.regime_travail ? "border-red-400" : ""}`}>
+                <label className="form-label">
+                  Work Regime <span className="text-red-500">*</span>
+                </label>
+                <Select
+                  value={data.regime_travail}
+                  onValueChange={(v) => updateField("regime_travail", v)}
+                >
+                  <SelectTrigger
+                    className={`w-full ${errors.regime_travail ? "border-red-400" : ""}`}
+                  >
                     <SelectValue placeholder="Select regime" />
                   </SelectTrigger>
                   <SelectContent>
                     {workRegimeEnum.map((r) => (
-                      <SelectItem key={r} value={r}>{r}</SelectItem>
+                      <SelectItem key={r} value={r}>
+                        {r}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <ErrorMessage message={errors.regime_travail} />
               </div>
               <div>
-                <label className="form-label">Hours per Week <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Hours per Week <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="number"
                   min={0}
                   value={data.heures_par_semaine}
-                  onChange={(e) => updateField("heures_par_semaine", parseInt(e.target.value) || 0)}
-                  className={errors.heures_par_semaine ? "form-error" : "form-input"}
+                  onChange={(e) =>
+                    updateField(
+                      "heures_par_semaine",
+                      parseInt(e.target.value) || 0,
+                    )
+                  }
+                  className={
+                    errors.heures_par_semaine ? "form-error" : "form-input"
+                  }
                 />
                 <ErrorMessage message={errors.heures_par_semaine} />
               </div>
@@ -641,32 +795,55 @@ function AddEmployee() {
         {/* ───── Step 4: Remuneration ───── */}
         {currentStep === 4 && (
           <div className="space-y-5">
-            <h2 className="text-lg font-semibold text-gray-900 mb-1">Remuneration</h2>
-            <p className="text-sm text-gray-400 mb-6">Salary and payment information</p>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">
+              Remuneration
+            </h2>
+            <p className="text-sm text-gray-400 mb-6">
+              Salary and payment information
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="form-label">Gross Monthly Salary (MAD) <span className="text-red-500">*</span></label>
+                <label className="form-label">
+                  Gross Monthly Salary (MAD){" "}
+                  <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="number"
                   min={0}
                   step={0.01}
                   value={data.salaire_brut_mensuel || ""}
-                  onChange={(e) => updateField("salaire_brut_mensuel", parseFloat(e.target.value) || 0)}
+                  onChange={(e) =>
+                    updateField(
+                      "salaire_brut_mensuel",
+                      parseFloat(e.target.value) || 0,
+                    )
+                  }
                   placeholder="0.00"
-                  className={errors.salaire_brut_mensuel ? "form-error" : "form-input"}
+                  className={
+                    errors.salaire_brut_mensuel ? "form-error" : "form-input"
+                  }
                 />
                 <ErrorMessage message={errors.salaire_brut_mensuel} />
               </div>
               <div>
-                <label className="form-label">Payment Method <span className="text-red-500">*</span></label>
-                <Select value={data.mode_paiement} onValueChange={(v) => updateField("mode_paiement", v)}>
-                  <SelectTrigger className={`w-full ${errors.mode_paiement ? "border-red-400" : ""}`}>
+                <label className="form-label">
+                  Payment Method <span className="text-red-500">*</span>
+                </label>
+                <Select
+                  value={data.mode_paiement}
+                  onValueChange={(v) => updateField("mode_paiement", v)}
+                >
+                  <SelectTrigger
+                    className={`w-full ${errors.mode_paiement ? "border-red-400" : ""}`}
+                  >
                     <SelectValue placeholder="Select payment method" />
                   </SelectTrigger>
                   <SelectContent>
                     {paymentMethodEnum.map((p) => (
-                      <SelectItem key={p} value={p}>{p}</SelectItem>
+                      <SelectItem key={p} value={p}>
+                        {p}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -699,8 +876,12 @@ function AddEmployee() {
         {/* ───── Step 5: CNSS ───── */}
         {currentStep === 5 && (
           <div className="space-y-5">
-            <h2 className="text-lg font-semibold text-gray-900 mb-1">CNSS Information</h2>
-            <p className="text-sm text-gray-400 mb-6">Social security registration details</p>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">
+              CNSS Information
+            </h2>
+            <p className="text-sm text-gray-400 mb-6">
+              Social security registration details
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
@@ -718,19 +899,26 @@ function AddEmployee() {
                 <input
                   type="date"
                   value={data.date_inscription_cnss}
-                  onChange={(e) => updateField("date_inscription_cnss", e.target.value)}
+                  onChange={(e) =>
+                    updateField("date_inscription_cnss", e.target.value)
+                  }
                   className={"form-input"}
                 />
               </div>
               <div>
                 <label className="form-label">CNSS Status</label>
-                <Select value={data.statut_cnss} onValueChange={(v) => updateField("statut_cnss", v)}>
+                <Select
+                  value={data.statut_cnss}
+                  onValueChange={(v) => updateField("statut_cnss", v)}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select CNSS status" />
                   </SelectTrigger>
                   <SelectContent>
                     {cnssStatusEnum.map((s) => (
-                      <SelectItem key={s} value={s}>{s}</SelectItem>
+                      <SelectItem key={s} value={s}>
+                        {s}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -766,7 +954,11 @@ function AddEmployee() {
           className="gap-1.5 bg-black hover:bg-gray-800 cursor-pointer"
         >
           {currentStep === TOTAL_STEPS ? (
-            submitting ? "Saving..." : "Save Employee"
+            submitting ? (
+              "Saving..."
+            ) : (
+              "Save Employee"
+            )
           ) : (
             <>
               Continue
