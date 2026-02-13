@@ -26,7 +26,9 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       </div>
       {/* Page content goes here */}
       <div className="flex-1 p-4 bg-gray-50">
-        {children}
+        <div className="bg-white rounded-lg shadow-sm p-4 h-full overflow-hidden">
+          {children}
+        </div>
       </div>
     </SidebarInset>
   );
@@ -38,7 +40,7 @@ export default function Dashboard() {
       <div className="relative flex w-full">
         <DashboardSidebar />
         <DashboardContent>
-          <Outlet/>
+          <Outlet />
         </DashboardContent>
       </div>
     </SidebarProvider>

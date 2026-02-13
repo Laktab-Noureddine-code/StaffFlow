@@ -54,7 +54,7 @@ function Register() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Full Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               Full Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -62,14 +62,14 @@ function Register() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your full name"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#121828] focus:border-transparent outline-none transition"
+              className="form-input"
               required
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               Email Address <span className="text-red-500">*</span>
             </label>
             <input
@@ -77,14 +77,14 @@ function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#121828] focus:border-transparent outline-none transition"
+              className="form-input"
               required
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               Password <span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -93,7 +93,7 @@ function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Create a password"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#121828] focus:border-transparent outline-none transition pr-12"
+                className="form-input pr-12"
                 required
               />
               
@@ -102,7 +102,7 @@ function Register() {
 
           {/* Confirm Password */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               Confirm Password <span className="text-red-500">*</span>
             </label>
             <div className="relative">

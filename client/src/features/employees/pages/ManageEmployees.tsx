@@ -41,7 +41,6 @@ function getInitials(name: string) {
 
 // ── Component ──
 function ManageEmployees() {
-  const [selectedIds, setSelectedIds] = useState<Set<string | number>>(new Set());
   const [filters, setFilters] = useState<Filters>({
     search: "",
     status: "",
@@ -179,7 +178,7 @@ function ManageEmployees() {
   ];
 
   return (
-    <div className="p-4 space-y-4 rounded-xl border border-gray-100 bg-white">
+    <div className="p-4 space-y-4 ">
       {/* Header */}
       <PageHeader
         title="Employees"
@@ -191,7 +190,7 @@ function ManageEmployees() {
               Download
             </Button>
             <Button size="lg" className="gap-1.5 bg-black hover:bg-gray-800" asChild>
-              <Link to="/dashboard/employees/add">
+              <Link to="/dashboard/add-employee">
                 <Plus className="size-4" />
                 Add New
               </Link>
@@ -238,8 +237,6 @@ function ManageEmployees() {
           data={paginatedData}
           getRowId={(row) => row.id}
           selectable
-          selectedIds={selectedIds}
-          onSelectChange={setSelectedIds}
           sortColumn={filters.sortColumn}
           sortDirection={filters.sortDirection}
           onSort={handleSort}

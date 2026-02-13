@@ -19,10 +19,10 @@ function CompanyLogo({
         <img
           src={logoUrl}
           alt={companyName}
-          className="size-8 shrink-0 rounded-lg object-cover"
+          className="size-10 shrink-0 rounded-lg object-cover"
         />
       ) : (
-        <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500 text-white font-bold text-sm">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500 text-white font-bold text-sm">
           {initials}
         </div>
       )}

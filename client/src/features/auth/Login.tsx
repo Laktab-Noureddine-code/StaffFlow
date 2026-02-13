@@ -43,7 +43,7 @@ function Login() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               Email Address <span className="text-red-500">*</span>
             </label>
             <input
@@ -51,14 +51,14 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Input your registered email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#121828] focus:border-transparent outline-none transition"
+              className="form-input"
               required
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               Password <span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -67,7 +67,7 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Input your password account"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#121828] focus:border-transparent outline-none transition pr-12"
+                className="form-input pr-12"
                 required
               />
               <button

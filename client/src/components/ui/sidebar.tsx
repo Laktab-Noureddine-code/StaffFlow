@@ -269,12 +269,10 @@ function SidebarTrigger({
   const { toggleSidebar, state } = useSidebar();
 
   return (
-    <Button
+    <button
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
-      variant="ghost"
-      size="icon"
-      className={cn("size-10", className)}
+      className={cn("flex items-center justify-center hover:bg-gray-50 rounded-sm size-8 cursor-pointer ", className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
@@ -283,7 +281,7 @@ function SidebarTrigger({
     >
       {state === "expanded" ? <ChevronsLeft /> : <ChevronsRight />}
       <span className="sr-only">Toggle Sidebar</span>
-    </Button>
+    </button>
   );
 }
 

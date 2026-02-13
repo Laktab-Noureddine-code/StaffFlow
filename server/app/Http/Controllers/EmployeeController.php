@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DTOs\EmployeeDTO;
 use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
-use App\Http\Resources\EmployeeResource;
-use App\Services\EmployeeService;
-use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class EmployeeController extends Controller
 {
@@ -16,18 +13,17 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-      
-    }
+    public function index() {}
 
-  
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreEmployeeRequest $request)
     {
+        $employee = Employee::create($request->validated());
+        return response()->json($employee, 201);
     }
 
     /**
@@ -35,7 +31,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return response()->json($employee);
     }
 
     /**

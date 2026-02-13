@@ -1,10 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "../features/auth/Login";
-import { AuthenticatedRoute, GuestRoute, ProtectedRoute } from "./ProtectedRoute";
+import {
+  AuthenticatedRoute,
+  GuestRoute,
+  ProtectedRoute,
+} from "./ProtectedRoute";
 import App from "../App";
 import Register from "../features/auth/Register";
 import CreateCompany from "../features/company/pages/CreateCompany";
 import ManageEmployees from "@/features/employees/pages/ManageEmployees";
+import AddEmployee from "@/features/employees/pages/AddEmployee";
 
 export const router = createBrowserRouter([
   {
@@ -48,8 +53,9 @@ export const router = createBrowserRouter([
         <App />
       </ProtectedRoute>
     ),
-    children:[
-      {path : "manage-employees", element: <ManageEmployees />},
-    ]
+    children: [
+      { path: "manage-employees", element: <ManageEmployees /> },
+      { path: "add-employee", element: <AddEmployee /> },
+    ],
   },
 ]);

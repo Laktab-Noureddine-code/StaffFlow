@@ -15,7 +15,6 @@ type DataTableProps<T> = {
   columns: Column<T>[];
   data: T[];
   selectable?: boolean;
-  selectedIds?: Set<string | number>;
   onSelectChange?: (ids: Set<string | number>) => void;
   getRowId: (row: T) => string | number;
   sortColumn?: string | null;
@@ -30,8 +29,6 @@ export default function DataTable<T>({
   columns,
   data,
   selectable = false,
-  selectedIds = new Set(),
-  onSelectChange,
   getRowId,
   sortColumn,
   sortDirection = "asc",
@@ -40,24 +37,10 @@ export default function DataTable<T>({
   emptyMessage = "No data found.",
   isLoading = false,
 }: DataTableProps<T>) {
-  const allSelected = data.length > 0 && data.every((r) => selectedIds.has(getRowId(r)));
 
-  const toggleAll = () => {
-    if (!onSelectChange) return;
-    if (allSelected) {
-      onSelectChange(new Set());
-    } else {
-      onSelectChange(new Set(data.map(getRowId)));
-    }
-  };
+ 
 
-  const toggleRow = (id: string | number) => {
-    if (!onSelectChange) return;
-    const next = new Set(selectedIds);
-    if (next.has(id)) next.delete(id);
-    else next.add(id);
-    onSelectChange(next);
-  };
+ 
 
   return (
     <div className="w-full overflow-x-auto">
@@ -65,16 +48,6 @@ export default function DataTable<T>({
         {/* Head */}
         <thead>
           <tr className="border-b border-gray-100">
-            {selectable && (
-              <th className="w-10 px-4 py-3">
-                <input
-                  type="checkbox"
-                  checked={allSelected}
-                  onChange={toggleAll}
-                  className="size-4 rounded border-gray-300 accent-emerald-500"
-                />
-              </th>
-            )}
             {columns.map((col) => (
               <th
                 key={col.key}
@@ -123,25 +96,14 @@ export default function DataTable<T>({
           ) : (
             data.map((row) => {
               const id = getRowId(row);
-              const isSelected = selectedIds.has(id);
               return (
                 <tr
                   key={id}
                   className={cn(
-                    "border-b border-gray-50 transition-colors hover:bg-gray-50/60",
-                    isSelected && "bg-emerald-50/40"
+                    "border-b border-gray-50 transition-colors hover:bg-gray-50/60"
                   )}
                 >
-                  {selectable && (
-                    <td className="px-4 py-3">
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={() => toggleRow(id)}
-                        className="size-4 rounded border-gray-300 accent-emerald-500"
-                      />
-                    </td>
-                  )}
+                  
                   {columns.map((col) => (
                     <td key={col.key} className={cn("px-4 py-3 text-gray-700 whitespace-nowrap", col.className)}>
                       {col.render ? col.render(row) : String((row as Record<string, unknown>)[col.key] ?? "")}

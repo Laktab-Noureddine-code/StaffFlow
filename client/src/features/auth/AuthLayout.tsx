@@ -1,3 +1,4 @@
+import Logo from "@/components/shared/Logo";
 import authImage from "../../assets/auth/auth.webp";
 
 interface AuthLayoutProps {
@@ -7,27 +8,22 @@ function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="max-h-screen flex">
       {/* Left side */}
-      <div className="hidden lg:flex lg:w-1/2 bg-[#121828] relative flex-col justify-between overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-[#121828] relative flex-col overflow-hidden">
         {/* Image container */}
-        <div className="flex-1 flex  max-h-[70vh]  justify-center">
-          <div className="relative w-full">
-            <img
-              src={authImage}
-              alt="Team collaboration"
-              className="w-full h-auto max-h-[70vh] rounded-lg object-cover"
-            />
-          </div>
+        <div className="flex-1 min-h-0">
+          <img
+            src={authImage}
+            alt="Team collaboration"
+            className="w-full h-full object-cover "
+          />
         </div>
 
         {/* Text content */}
-        <div className="mt-auto p-3">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 bg-cyan-400 rounded flex items-center justify-center">
-              <span className="text-[#121828] font-bold text-sm">H</span>
-            </div>
-            <span className="text-white font-semibold">HRDashboard</span>
+        <div className="px-8 py-8 space-y-4 border-t-4 border-app">
+          <div className="flex items-center gap-2">
+            <Logo textColor="text-white" />
           </div>
-          <h1 className="text-white text-3xl md:text-4xl font-bold leading-tight mb-3">
+          <h1 className="text-white text-3xl md:text-[2.5rem] font-semibold leading-tight">
             Let's empower your
             <br />
             employees today.
@@ -47,7 +43,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
 
         {/* Footer */}
         <footer className="p-4 text-center text-xs text-gray-500">
-          © 2026 HRDashboard. All rights reserved.{" "}
+          © 2026 NessHR. All rights reserved.{" "}
           <a href="#" className="text-cyan-600 hover:underline">
             Terms & Conditions
           </a>{" "}
